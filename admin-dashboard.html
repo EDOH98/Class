@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin-style.css">
+</head>
+<body>
+    <header class="header">
+        <h1>Admin Dashboard</h1>
+        <button onclick="logout()">Logout</button>
+    </header>
+    
+    <nav class="sidebar">
+        <ul>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#userManagement">User Management</a></li>
+            <li><a href="#siteSettings">Site Settings</a></li>
+        </ul>
+    </nav>
+    
+    <main class="content">
+        <!-- Overview Section -->
+        <section id="overview">
+            <h2>Overview</h2>
+            <p>Welcome, Admin! Here you can manage all aspects of the website.</p>
+        </section>
+        
+        <!-- User Management Section -->
+        <section id="userManagement">
+            <h2>User Management</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTable">
+                    <!-- User data will be populated here via JavaScript -->
+                </tbody>
+            </table>
+        </section>
+        
+        <!-- Site Settings Section -->
+        <section id="siteSettings">
+            <h2>Site Settings</h2>
+            <p>Modify site settings here. Additional options can be added as needed.</p>
+            <!-- Additional settings inputs can go here -->
+        </section>
+    </main>
+    
+    <script>
+        // Sample users array with roles (as in the login page)
+        const users = [
+            { username: "user1", role: "user" },
+            { username: "user2", role: "user" },
+            { username: "user3", role: "user" },
+            { username: "admin1", role: "admin" }
+        ];
+
+        // Function to display users in the table
+        function displayUsers() {
+            const userTable = document.getElementById("userTable");
+            userTable.innerHTML = "";
+            users.forEach((user, index) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>
+                        <button onclick="editUser(${index})">Edit</button>
+                        <button onclick="removeUser(${index})">Delete</button>
+                    </td>
+                `;
+                userTable.appendChild(row);
+            });
+        }
+
+        // Function to edit a user
+        function editUser(index) {
+            const newUsername = prompt("Enter new username:", users[index].username);
+            if (newUsername) {
+                users[index].username = newUsername;
+                displayUsers();
+            }
+        }
+
+        // Function to remove a user
+        function removeUser(index) {
+            if (confirm(`Are you sure you want to delete ${users[index].username}?`)) {
+                users.splice(index, 1);
+                displayUsers();
+            }
+        }
+
+        // Display users on page load
+        displayUsers();
+
+        // Logout function
+        function logout() {
+            alert("Logging out...");
+            window.location.href = "index.html"; // Redirect to login page
+        }
+    </script>
+</body>
+</html>
